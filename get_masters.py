@@ -122,7 +122,7 @@ if str(response.status_code)[0] == '2':
 	for unit in response_dict['Units']:
 		print('**DEBUG: unit is {0} and is a {1}'.format(unit, type(unit)))
 		print('Name: {0}			State: {1}'.format( response_dict['Units'][unit]['UnitName'], response_dict['Units'][unit]['Health'] ) )
-		if response_dict[unit]['Health']: #not 0 means unhealthy, print all children
+		if response_dict['Units'][unit]['Health']: #not 0 means unhealthy, print all children
 			for node in unit['Nodes']:
 				print('Name: {0}			IP: {1}		State: {2}'.format( response_dict['Units'][unit]['UnitName'], response_dict['Units'][unit][node]['IP'], response_dict['Units'][unit][node]['Health'] ) )
 else:
