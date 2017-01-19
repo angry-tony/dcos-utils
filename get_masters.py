@@ -37,7 +37,7 @@ print('**DEBUG: num_master is: {0}'.format( args['masters'] ))
 
 #Load configuration from environment variables
 DCOS_IP=args['server']
-masters=args['masters'] 
+masters=int(args['masters'] )
 TOKEN=os.environ['TOKEN']
 #TODO check they exist and have the right format
 
