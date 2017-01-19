@@ -120,7 +120,7 @@ if str(response.status_code)[0] == '2':
 	#print relevant parameters from health
 	for unit in response_dict['Units']:
 		print('**DEBUG: unit is {0}'.format(unit))
-		print('Name: {0}			State: {1}'.format( unit, unit['Health'] ) )
+		print('Name: {0}			State: {1}'.format( unit, unit[0]['Health'] ) )
 		if unit['Health']: #not 0 means unhealthy, print all children
 			for node in unit['Nodes']:
 				print('Name: {0}			IP: {1}		State: {2}'.format( unit, node['IP'], node['Health'] ) )
