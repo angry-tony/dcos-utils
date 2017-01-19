@@ -65,10 +65,10 @@ for node in data:
 		serving += 1
 
 if serving != masters or leaders != 1:
-		print('**ERROR: Expected {} servers and 1 leader, got {} servers and {} leaders. Exiting.'.format(masters, serving, leaders))
+		print('**ERROR: Expected {0} servers and 1 leader, got {1} servers and {2} leaders. Exiting.'.format(masters, serving, leaders))
 		sys.exit(1)
 else:
-		print('**INFO: server/leader check OK: {0} servers and {} leader.'.format(serving, leaders))
+		print('**INFO: server/leader check OK: {0} servers and {1} leader.'.format(serving, leaders))
 
 #CHECK #2
 #https://docs.mesosphere.com/1.8/administration/installing/cloud/aws/upgrading/
