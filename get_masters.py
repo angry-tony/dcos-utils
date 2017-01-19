@@ -51,8 +51,8 @@ try:
 except requests.exceptions.ConnectionError as ex:
 	print('**ERROR: Could not connect to exhibitor: {}'.format(ex))
 	sys.exit(1)
-if str(response.status_code)[0] == '2':
-	log.error('Could not get exhibitor status: {}, Status code: {}'.format(EXHIBITOR_STATUS_URL, response.status_code))
+if str(response.status_code)[0] != '2':
+	print('**ERROR: Could not get exhibitor status: {}, Status code: {}'.format(EXHIBITOR_STATUS_URL, response.status_code))
 	sys.exit(1)
 data = response.json()
 #count the number of serving nodes and leaders
