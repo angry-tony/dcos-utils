@@ -117,11 +117,11 @@ if str(response.status_code)[0] == '2':
 	response_dict=response.json()
 	#print relevant parameters from health
 	for unit in response_dict['Units']:
-		print('Name: {0:32}			State: {1}'.format( \
+		print('Name: {0:48}			State: {1}'.format( \
 			response_dict['Units'][unit]['UnitName'], response_dict['Units'][unit]['Health'] ) )
 		if response_dict['Units'][unit]['Health']: #not 0 means unhealthy, print all children
 			for node in unit['Nodes']:
-				print('Name: {0:32}			IP: {1}		State: {2}'.format( \
+				print('Name: {0:48}			IP: {1}		State: {2}'.format( \
 					response_dict['Units:'][unit]['UnitName'], response_dict['Units'][unit][node]['IP'], \
 					response_dict['Units'][unit][node]['Health'] ) )
 else:
