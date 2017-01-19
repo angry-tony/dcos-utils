@@ -83,10 +83,10 @@ try:
 		headers=headers,
 		)
 	#show progress after request
-	sys.stdout.write( '** INFO: GET Metrics: {0} \n'.format( request.status_code ) )
+	sys.stdout.write( '**INFO: GET Metrics: {0} \n'.format( request.status_code ) )
 	sys.stdout.flush()
 except requests.exceptions.HTTPError as error:
-	print ('** ERROR: GET Metrics: {} \n'.format( requests.text ) )
+	print ('**ERROR: GET Metrics: {} \n'.format( requests.text ) )
 
 print('**DEBUG: Metrics is'.format(request.text))
 #TODO: print relevant metrics and make sure that /registrar/log
@@ -108,7 +108,7 @@ try:
 	sys.stdout.write( '** INFO: GET Health Report: {0} \n'.format( response.status_code ) )
 	sys.stdout.flush()
 except requests.exceptions.HTTPError as error:
-	print ('** ERROR: GET Health Report: {} \n'.format( response.text ) ) 
+	print ('**ERROR: GET Health Report: {} \n'.format( response.text ) ) 
 
 #2xx HTTP status code is success
 if str(response.status_code)[0] == '2':
@@ -117,15 +117,15 @@ if str(response.status_code)[0] == '2':
 	response_dict=response.json()
 	#print relevant parameters from health
 	for unit in response_dict['Units']:
-		print('Name: {0}			State: {1}'.format( \
+		print('Name: {0:32}			State: {1}'.format( \
 			response_dict['Units'][unit]['UnitName'], response_dict['Units'][unit]['Health'] ) )
 		if response_dict['Units'][unit]['Health']: #not 0 means unhealthy, print all children
 			for node in unit['Nodes']:
-				print('Name: {0}			IP: {1}		State: {2}'.format( \
-					response_dict['Units'][unit]['UnitName'], response_dict['Units'][unit][node]['IP'], \
+				print('Name: {0:32}			IP: {1}		State: {2}'.format( \
+					response_dict['Units:'][unit]['UnitName'], response_dict['Units'][unit][node]['IP'], \
 					response_dict['Units'][unit][node]['Health'] ) )
 else:
-	print ('** ERROR: GET Health: {} \n'.format( error ) ) 	
+	print ('**ERROR: GET Health: {} \n'.format( error ) ) 	
 
 sys.stdout.write( '\n** INFO: GET System Health: 							Done. \n' )
 
