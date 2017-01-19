@@ -103,20 +103,20 @@ headers = {
 	'Authorization': 'token='+TOKEN,
 }
 try:
-	request = requests.get(
+	response = requests.get(
 		url,
 		headers=headers,
 		)
 	#show progress after request
-	sys.stdout.write( '** INFO: GET Health Report: {0} \n'.format( request.status_code ) )
+	sys.stdout.write( '** INFO: GET Health Report: {0} \n'.format( response.status_code ) )
 	sys.stdout.flush()
 except requests.exceptions.HTTPError as error:
-	print ('** ERROR: GET Health Report: {} \n'.format( requests.text ) ) 
+	print ('** ERROR: GET Health Report: {} \n'.format( response.text ) ) 
 
 #2xx HTTP status code is success
-if str(request.status_code)[0] == '2':
+if str(response.status_code)[0] == '2':
 	
-	response = json.loads( request.text ) 
+	response = json.loads( response.text ) 
 	#print relevant parameters from healthx
 	print('**DEBUG: response is: '.format(response))	
 	for index,unit in enumerate( response['Units'] ):
