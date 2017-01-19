@@ -117,8 +117,7 @@ except requests.exceptions.HTTPError as error:
 if str(response.status_code)[0] == '2':
 	
 	response_dict=json.loads(response.text)
-	#print relevant parameters from healthx
-	print('**DEBUG: response is: {0}'.format(response.text))	
+	#print relevant parameters from health
 	for unit in response_dict['Units']:
 		print('**DEBUG: unit is {0}'.format(unit))
 		print('Name: {0}			State: {1}'.format( unit['UnitName'], unit['Health'] ) )
