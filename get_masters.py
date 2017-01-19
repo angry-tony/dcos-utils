@@ -117,12 +117,13 @@ except requests.exceptions.HTTPError as error:
 if str(request.status_code)[0] == '2':
 	
 	response = json.loads( request.text ) 
-	#print relevant parameters from healthx	
+	#print relevant parameters from healthx
+	print('**DEBUG: response is: '.format(response))	
 	for index,unit in enumerate( response['Units'] ):
 		print('Unit#: {0}		Name: {1}			State: {2}'.format( index, unit['UnitName'], unit['Health'] ) )
 		if unit['Health']: #not 0 means unhealthy, print all children
 			for node in unit['Nodes']:
-				print('Unit#: {0}		Name: {1}			IP: {2}		State: {2}'.format( index, unit['UnitName'], node['IP'], unit['Health'] ) )
+				print('Unit#: {0}		Name: {1}			IP: {2}		State: {2}'.format( index, unit['UnitName'], node['IP'], node['Health'] ) )
 else:
 	print ('** ERROR: GET Health: {} \n'.format( error ) ) 	
 
