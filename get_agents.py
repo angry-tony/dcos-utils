@@ -58,13 +58,13 @@ if str(request.status_code)[0] == '2':
 	print( "HEALTHY agents: 			{0}".format( len( healthy_agents ) ) )
 	print(SEPARATOR)
 	for index, agent in ( enumerate( healthy_agents ) ):
-		print ( "Agent #{0}: {1} - {2}".format( index, agent['host_ip'], agent['role']) )
+		print ( "Agent #{0}: {1:48} - {2}".format( index, agent['host_ip'], agent['role']) )
 	unhealthy_agents = [ agent for agent in agents_list if agent['health'] ]   #health!=0 means unhealthy
 	print(SEPARATOR)
 	print("UNHEALTHY agents: 			{0}".format( len( unhealthy_agents ) ) )
 	print(SEPARATOR)
 	for index, agent in ( enumerate( unhealthy_agents ) ):
-		print ( "Agent #{0}: {1} - {2}".format( index, agent['host_ip'], agent['role']) )
+		print ( "Agent #{0}: {1:48} - {2}".format( index, agent['host_ip'], agent['role']) )
 	input("Press ENTER to continue...")
 
 else:
