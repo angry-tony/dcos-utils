@@ -31,9 +31,6 @@ parser = argparse.ArgumentParser(description='Retrieve and check the state of a 
 parser.add_argument('-s', '--server', help='server to check', required=True)
 parser.add_argument('-n', '--masters', help='expected number of masters in the cluster', required=True)
 args = vars(parser.parse_args())
-print('**DEBUG: server is: {0}'.format( args['server'] ))
-print('**DEBUG: num_master is: {0}'.format( args['masters'] ))
-
 
 #Load configuration from environment variables
 DCOS_IP=args['server']
@@ -120,11 +117,13 @@ if str(response.status_code)[0] == '2':
 	response_dict=response.json()
 	#print relevant parameters from health
 	for unit in response_dict['Units']:
-		print('**DEBUG: unit is {0} and is a {1}'.format(unit, type(unit)))
-		print('Name: {0}			State: {1}'.format( response_dict['Units'][unit]['UnitName'], response_dict['Units'][unit]['Health'] ) )
+		print('Name: {0}			State: {1}'.format( \
+			response_dict['Units'][unit]['UnitName'], response_dict['Units'][unit]['Health'] ) )
 		if response_dict['Units'][unit]['Health']: #not 0 means unhealthy, print all children
 			for node in unit['Nodes']:
-				print('Name: {0}			IP: {1}		State: {2}'.format( response_dict['Units'][unit]['UnitName'], response_dict['Units'][unit][node]['IP'], response_dict['Units'][unit][node]['Health'] ) )
+				print('Name: {0}			IP: {1}		State: {2}'.format( \
+					response_dict['Units'][unit]['UnitName'], response_dict['Units'][unit][node]['IP'], \
+					response_dict['Units'][unit][node]['Health'] ) )
 else:
 	print ('** ERROR: GET Health: {} \n'.format( error ) ) 	
 
