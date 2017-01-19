@@ -116,7 +116,7 @@ except requests.exceptions.HTTPError as error:
 #2xx HTTP status code is success
 if str(response.status_code)[0] == '2':
 	
-	response = json.loads( response.text ) 
+	response_dict=response.json
 	#print relevant parameters from healthx
 	print('**DEBUG: response is: '.format(response.text))	
 	for index,unit in enumerate( response['Units'] ):
