@@ -25,33 +25,33 @@ import json
 import argparse
 
 #Parse command line arguments
-parser = argparse.ArgumentParser(description='Retrieve and check the state of DC/OS service in the Masters', \
-	usage='get_agents.py -s [SERVER] -n [EXPECTED_NUMBER_OF_MASTERS]'
+parser = argparse.ArgumentParser(description='Retrieve and check the state of a DC/OS cluster', \
+	usage='get_masters.py -s [SERVER] -n [EXPECTED_NUMBER_OF_MASTERS]'
 	)
 parser.add_argument('-s', '--server', help='server to check', required=True)
-parser.add_argument('-n', '--num_masters', help='expected number of masters in the cluster', required=True)
+parser.add_argument('-n', '--masters', help='expected number of masters in the cluster', required=True)
 args = vars(parser.parse_args())
 print('**DEBUG: server is: {0}'.format( args['server'] ))
-print('**DEBUG: num_master is: {0}'.format( args['num_masters'] ))
+print('**DEBUG: num_master is: {0}'.format( args['masters'] ))
 
 
 #Load configuration from environment variables
-#DCOS_IP=os.environ['DCOS_IP']
 DCOS_IP=args['server']
+masters=args['masters'] 
 TOKEN=os.environ['TOKEN']
 #TODO check they exist and have the right format
 
 #CHECK #1
 #check from zookeeper the number of servers and leaders matches what is expected.
 EXHIBITOR_STATUS_URL = 'http://'+DCOS_IP+':8181/exhibitor/v1/cluster/status'
-print('**INFO: Expected cluster size: {}'.format( args['num_masters'] ))
+print('**INFO: Expected cluster size: {}'.format( masters ))
 #get the actual cluster size from zookeeper
 try:
 	response = requests.get(EXHIBITOR_STATUS_URL)
 except requests.exceptions.ConnectionError as ex:
 	print('**ERROR: Could not connect to exhibitor: {}'.format(ex))
 	sys.exit(1)
-if response.status_code != 200:
+if str(response.status_code)[0] == '2':
 	log.error('Could not get exhibitor status: {}, Status code: {}'.format(EXHIBITOR_STATUS_URL, response.status_code))
 	sys.exit(1)
 data = response.json()
@@ -64,13 +64,14 @@ for node in data:
 	if node['description'] == 'serving':
 		serving += 1
 
-if serving != cluster_size or leaders != 1:
-		print('**ERROR: Expected {} servers and 1 leader, got {} servers and {} leaders'.format(num_master, serving, leaders))
+if serving != masters or leaders != 1:
+		print('**ERROR: Expected {} servers and 1 leader, got {} servers and {} leaders. Exiting.'.format(masters, serving, leaders))
 		sys.exit(1)
 else:
-		print('**INFO: server/leader check OK: {0} servers and {} leader'.format(serving, leaders))
+		print('**INFO: server/leader check OK: {0} servers and {} leader.'.format(serving, leaders))
 
 #CHECK #2
+#https://docs.mesosphere.com/1.8/administration/installing/cloud/aws/upgrading/
 #METRICS: "registrar" has the metric/registrar/log recovered with a value of 1
 #http://<dcos_master_private_ip>:5050/metrics/snapshot
 api_endpoint=':5050/metrics/snapshot'
@@ -91,6 +92,7 @@ except requests.exceptions.HTTPError as error:
 	print ('** ERROR: GET Metrics: {} \n'.format( requests.text ) )
 
 print('**DEBUG: Metrics is'.format(request.text))
+#TODO: print relevant metrics and make sure that /registrar/log
 
 #CHECK #3
 #Get general health of the system and make sure EVERYTHING is Healthy
@@ -115,15 +117,14 @@ except requests.exceptions.HTTPError as error:
 if str(request.status_code)[0] == '2':
 	
 	response = json.loads( request.text ) 
-	#print relevant parameters from health
+	#print relevant parameters from healthx	
 	for index,unit in enumerate( response['Units'] ):
 		print('Unit#: {0}		Name: {1}			State: {2}'.format( index, unit['UnitName'], unit['Health'] ) )
-		if unit['Health']: #unhealthy, print all children
+		if unit['Health']: #not 0 means unhealthy, print all children
 			for node in unit['Nodes']:
 				print('Unit#: {0}		Name: {1}			IP: {2}		State: {2}'.format( index, unit['UnitName'], node['IP'], unit['Health'] ) )
 else:
 	print ('** ERROR: GET Health: {} \n'.format( error ) ) 	
-
 
 sys.stdout.write( '\n** INFO: GET System Health: 							Done. \n' )
 
