@@ -20,6 +20,8 @@ import os
 import requests
 import json
 
+SEPARATOR="="*42
+
 #Load configuration from environment variables
 DCOS_IP=os.environ['DCOS_IP']
 TOKEN=os.environ['TOKEN']
@@ -51,16 +53,16 @@ if str(request.status_code)[0] == '2':
 	agents_list = agents_dict['nodes']
 
 	print( "TOTAL agents: 				{0}".format( len( agents_list ) ) )
-	print("="*42)
+	print(SEPARATOR)
 	healthy_agents = [ agent for agent in agents_list if not agent['health'] ]  #health==0 means healthy
 	print( "HEALTHY agents: 			{0}".format( len( healthy_agents ) ) )
-	print("="*42)
+	print(SEPARATOR)
 	for index, agent in ( enumerate( healthy_agents ) ):
 		print ( "Agent #{0}: {1} - {2}".format( index, agent['host_ip'], agent['role']) )
 	unhealthy_agents = [ agent for agent in agents_list if agent['health'] ]   #health!=0 means unhealthy
-	print("="*42)
+	print(SEPARATOR)
 	print("UNHEALTHY agents: 			{0}".format( len( unhealthy_agents ) ) )
-	print("="*42)
+	print(SEPARATOR)
 	for index, agent in ( enumerate( unhealthy_agents ) ):
 		print ( "Agent #{0}: {1} - {2}".format( index, agent['host_ip'], agent['role']) )
 	input("Press ENTER to continue...")
