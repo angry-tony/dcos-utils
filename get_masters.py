@@ -118,8 +118,9 @@ if str(response.status_code)[0] == '2':
 	
 	response_dict=json.loads(response.text)
 	#print relevant parameters from healthx
-	print('**DEBUG: response is: '.format(response.text))	
+	print('**DEBUG: response is: {0}'.format(response.text))	
 	for unit in response_dict['Units']:
+		print('**DEBUG: unit is {0}'.format(unit))
 		print('Name: {0}			State: {1}'.format( unit['UnitName'], unit['Health'] ) )
 		if unit['Health']: #not 0 means unhealthy, print all children
 			for node in unit['Nodes']:
