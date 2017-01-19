@@ -40,8 +40,7 @@ try:
 		headers=headers,
 		)
 	#show progress after request
-	sys.stdout.write( '** INFO: GET Nodes: {0} \n'.format( request.status_code ) )
-	sys.stdout.flush()
+	print( '** INFO: GET Nodes: {0} \n'.format( request.status_code ) )
 except requests.exceptions.HTTPError as error:
 	print ('** ERROR: GET Nodes: {} \n'.format( error ) ) 
 
@@ -70,7 +69,7 @@ if str(request.status_code)[0] == '2':
 else:
 	print ('** ERROR: GET Node: {} \n'.format( error ) ) 	
 
-sys.stdout.write( '\n** INFO: GET Node: 							Done. \n' )
+print( '\n** INFO: GET Node: 							Done. \n' )
 
 
 

@@ -83,16 +83,18 @@ try:
 		headers=headers,
 		)
 	#show progress after request
-	sys.stdout.write( '**INFO: GET Metrics: {0} \n'.format( request.status_code ) )
-	sys.stdout.flush()
+	print( '**INFO: GET Metrics: {0} \n'.format( request.status_code ) )
 except requests.exceptions.HTTPError as error:
 	print ('**ERROR: GET Metrics: {} \n'.format( requests.text ) )
 
-print('**DEBUG: Metrics is'.format(request.text))
 #TODO: print relevant metrics and make sure that /registrar/log
+print('**DEBUG: Metrics is'.format(request.text))
+
 
 #CHECK #3
-#Get general health of the system and make sure EVERYTHING is Healthy
+#Get health repotof the system and make sure EVERYTHING is Healthy. 
+#Display where it's Unhealthy otherwise.
+
 api_endpoint = '/system/health/v1/report'
 url = 'http://'+DCOS_IP+api_endpoint
 headers = {
@@ -105,15 +107,12 @@ try:
 		headers=headers,
 		)
 	#show progress after request
-	sys.stdout.write( '** INFO: GET Health Report: {0} \n'.format( response.status_code ) )
-	sys.stdout.flush()
+	print( '** INFO: GET Health Report: {0} \n'.format( response.status_code ) )
 except requests.exceptions.HTTPError as error:
 	print ('**ERROR: GET Health Report: {} \n'.format( response.text ) ) 
 
-#2xx HTTP status code is success
-if str(response.status_code)[0] == '2':
+if str(response.status_code)[0] == '2':	#2xx HTTP status code is success
 	
-	#response_dict=json.loads(response.text)
 	response_dict=response.json()
 	#print relevant parameters from health
 	for unit in response_dict['Units']:
@@ -127,7 +126,7 @@ if str(response.status_code)[0] == '2':
 else:
 	print ('**ERROR: GET Health: {} \n'.format( error ) ) 	
 
-sys.stdout.write( '\n** INFO: GET System Health: 							Done. \n' )
+print( '\n** INFO: GET System Health: 							Done. \n' )
 
 
 
