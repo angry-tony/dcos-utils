@@ -30,13 +30,14 @@ import argparse
 
 #Load configuration from environment variables
 
-if os.environ['DCOS_IP'] and os.environ['EXPECTED_NUMBER_OF_MASTERS'] and os.environ['DCOS_TOKEN']
+if 'DCOS_IP' in os.environ and 'EXPECTED_NUMBER_OF_MASTERS' in os.environ and ['DCOS_TOKEN'] in os.environ:
 	DCOS_IP=os.environ['DCOS_IP']
 	NUM_MASTERS=os.environ['EXPECTED_NUMBER_OF_MASTERS']
 	DCOS_TOKEN=os.environ['DCOS_TOKEN']
 else:
 	print('** ERROR: required variables DCOS_IP: {0}, NUM_MASTERS: {1}, \
 		DCOS_TOKEN: {2} not set appropriately. Please set and re-run'.format(DCOS_IP,NUM_MASTERS,DCOS_TOKEN))
+	sys.exit(1)
 
 #CHECK #1
 #check from zookeeper the number of servers and leaders matches what is expected.
