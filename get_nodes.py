@@ -31,17 +31,17 @@ from socket import error as socket_error
 SEPARATOR="="*42
 
 #Load configuration from environment variables
-DCOS_IP=os.environ['DCOS_IP']
-DCOS_TOKEN=os.environ['DCOS_TOKEN']
-
+if ('DCOS_IP' in os.environ) and ('DCOS_TOKEN' in os.environ):
+	DCOS_IP=os.environ['DCOS_IP']
+	DCOS_TOKEN=os.environ['DCOS_TOKEN']
+else:
+	print('**ERROR: required variables DCOS_IP, DCOS_TOKEN not set appropriately. Please set and re-run.')
+	sys.exit(1)
 
 print('**DEBUG: DCOS_IP: {}'.format(DCOS_IP))
 print('**DEBUG: DCOS_TOKEN: {}'.format(DCOS_TOKEN))
-if DCOS_IP=='' or DCOS_TOKEN=='':
-	print('** ERROR: required variables DCOS_IP: {0}, DCOS_TOKEN: {1}, \
-		not set appropriately. Please set and re-run'.format(DCOS_IP,DCOS_TOKEN))
 
-#Get list of nodeS with their state from DC/OS. 
+#Get list of nodes with their state from DC/OS. 
 #This will be later used as index to get all user-to-group memberships
 api_endpoint = '/system/health/v1/nodes'
 url = 'http://'+DCOS_IP+api_endpoint
@@ -69,9 +69,11 @@ except (
 if str(request.status_code)[0] == '2':
 
 	#parseable output
-	print("\n\n**OUTPUT:{'nodes':{}}".format(request.text))
+	nodes_dict=response.json()
+	nodes={'nodes': nodes_dict }
+	print("\n\n**OUTPUT:\n{0}".format( json.dumps( nodes ) ) )
 	#Create a list of nodes
-	nodes_dict = json.loads( request.text )
+	#nodes_dict = json.loads( request.text )
 	nodes_list = nodes_dict['nodes']
 	print( "TOTAL nodes: 				{0}".format( len( nodes_list ) ) )
 	print(SEPARATOR)

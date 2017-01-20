@@ -26,7 +26,7 @@ import sys
 import os
 import requests
 import json
-import argparse
+from socket import error as socket_error
 
 #Load configuration from environment variables
 
@@ -35,10 +35,11 @@ if ('DCOS_IP' in os.environ) and ('NUM_MASTERS' in os.environ) and ('DCOS_TOKEN'
 	NUM_MASTERS=os.environ['NUM_MASTERS']
 	DCOS_TOKEN=os.environ['DCOS_TOKEN']
 else:
-	print('** ERROR: required variables DCOS_IP, NUM_MASTERS, \
+	print('**ERROR: required variables DCOS_IP, NUM_MASTERS, \
 	DCOS_TOKEN not set appropriately. Please set and re-run')
 	sys.exit(1)
 NUM_MASTERS=int(NUM_MASTERS)
+
 #CHECK #1
 #check from zookeeper the number of servers and leaders matches what is expected.
 EXHIBITOR_STATUS_URL = 'http://'+DCOS_IP+':8181/exhibitor/v1/cluster/status'
@@ -48,9 +49,10 @@ try:
 	response = requests.get(EXHIBITOR_STATUS_URL)
 except (
 	requests.exceptions.ConnectionError ,\
-	socket.error,\
+	socket_error,\
 	requests.packages.urllib3.exceptions.NewConnectionError ,\
-	requests.packages.urllib3.exceptions.MaxRetryErrorrequests.exceptions.HTTPError
+	requests.packages.urllib3.exceptions.MaxRetryErrorrequests.exceptions.HTTPError,\
+	ConnectionRefusedError
 	) as ex:
 	print('**ERROR: Could not connect to exhibitor: {}'.format(ex))
 	sys.exit(1)
@@ -129,7 +131,7 @@ try:
 		headers=headers,
 		)
 	#show progress after request
-	print( '** INFO: GET Health Report: {0} \n'.format( response.status_code ) )
+	print( '**INFO: GET Health Report: {0} \n'.format( response.status_code ) )
 except requests.exceptions.HTTPError as error:
 	print ('**ERROR: GET Health Report: {} \n'.format( response.text ) ) 
 
