@@ -10,10 +10,17 @@
 # Parameters as environment variables:
 #
 # DCOS_IP : IP address or name of cluster to be checked
-# TOKEN : Token to be used for authentication
+# DCOS_TOKEN : DCOS_TOKEN to be used for authentication
 
 #reference:
 #http://mesos.apache.org/documentation/latest/endpoints/master/slaves/
+
+#prereqs on redhat7
+# rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+# yum install -y epel-release
+# yum install -y git python-pip python34 jq nginx
+# curl https://bootstrap.pypa.io/get-pip.py | python3.4
+# pip3 install --upgrade pip jsonschema requests
 
 import sys
 import os
@@ -24,7 +31,7 @@ SEPARATOR="="*42
 
 #Load configuration from environment variables
 DCOS_IP=os.environ['DCOS_IP']
-TOKEN=os.environ['TOKEN']
+DCOS_TOKEN=os.environ['DCOS_TOKEN']
 
 #Get list of nodeS with their state from DC/OS. 
 #This will be later used as index to get all user-to-group memberships
@@ -32,7 +39,7 @@ api_endpoint = '/system/health/v1/nodes'
 url = 'http://'+DCOS_IP+api_endpoint
 headers = {
 	'Content-type': 'application/json',
-	'Authorization': 'token='+TOKEN,
+	'Authorization': 'DCOS_TOKEN='+DCOS_TOKEN,
 }
 try:
 	request = requests.get(
@@ -46,11 +53,12 @@ except requests.exceptions.HTTPError as error:
 
 #2xx HTTP status code is success
 if str(request.status_code)[0] == '2':
-	
+
+	#parseable output
+	print("\n\n**OUTPUT:{'nodes_list':{}}".format(request.text))
 	#Create a list of nodes
 	nodes_dict = json.loads( request.text )
 	nodes_list = nodes_dict['nodes']
-
 	print( "TOTAL nodes: 				{0}".format( len( nodes_list ) ) )
 	print(SEPARATOR)
 	healthy_nodes = [ node for node in nodes_list if not node['health'] ]  #health==0 means healthy
@@ -64,7 +72,7 @@ if str(request.status_code)[0] == '2':
 	print(SEPARATOR)
 	for index, node in ( enumerate( unhealthy_nodes ) ):
 		print ( "Node #{0}: {1:24} - {2}".format( index, node['host_ip'], node['role']) )
-	input("Press ENTER to continue...")
+
 
 else:
 	print ('** ERROR: GET Node: {} \n'.format( error ) ) 	
