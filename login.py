@@ -60,6 +60,9 @@ if __name__ == "__main__":
 	parser.add_argument('-u', '--username', help='username to login with', required=True)
 	parser.add_argument('-p', '--password', help='password to login with', required=True)
 	args = vars(parser.parse_args())
+	print('**DEBUG: server is: {0}'.format(args['server']) )
+	print('**DEBUG: username is: {0}'.format(args['username']) )
+	print('**DEBUG: password is: {0}'.format(args['password']) )
 	token = login_to_cluster(
 		args['server'],
 		args['username'],
