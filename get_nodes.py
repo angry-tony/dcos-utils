@@ -48,7 +48,12 @@ try:
 		)
 	#show progress after request
 	print( '** INFO: GET Nodes: {0} \n'.format( request.status_code ) )
-except requests.exceptions.HTTPError as error:
+except (
+	requests.exceptions.ConnectionError ,\
+	socket.error,\
+	requests.packages.urllib3.exceptions.NewConnectionError ,\
+	requests.packages.urllib3.exceptions.MaxRetryErrorrequests.exceptions.HTTPError
+	) as error:
 	print ('** ERROR: GET Nodes: {} \n'.format( error ) ) 
 
 #2xx HTTP status code is success

@@ -44,7 +44,12 @@ print('**INFO: Expected cluster size: {}'.format( NUM_MASTERS ))
 #get the actual cluster size from zookeeper
 try:
 	response = requests.get(EXHIBITOR_STATUS_URL)
-except requests.exceptions.ConnectionError as ex:
+except (
+	requests.exceptions.ConnectionError ,\
+	socket.error,\
+	requests.packages.urllib3.exceptions.NewConnectionError ,\
+	requests.packages.urllib3.exceptions.MaxRetryErrorrequests.exceptions.HTTPError
+	) as ex:
 	print('**ERROR: Could not connect to exhibitor: {}'.format(ex))
 	sys.exit(1)
 if str(response.status_code)[0] != '2':

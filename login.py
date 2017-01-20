@@ -43,7 +43,12 @@ def login_to_cluster ( DCOS_IP, username, password ):
 			headers=headers
 			)
 		request.raise_for_status()
-	except ( requests.exceptions.HTTPError, requests.exceptions.ConnectionError ) as error:
+	except ( 
+		requests.exceptions.ConnectionError ,\
+		socket.error,\
+		requests.packages.urllib3.exceptions.NewConnectionError ,\
+		requests.packages.urllib3.exceptions.MaxRetryErrorrequests.exceptions.HTTPError
+		) as error:
 		print('**ERROR: Login to cluster {0} as {1} ERROR: {2}'.format( DCOS_IP, username, request.text) )
 		return False
 
