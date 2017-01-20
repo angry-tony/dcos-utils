@@ -50,12 +50,12 @@ headers = {
 	'Authorization': 'token='+DCOS_TOKEN,
 }
 try:
-	request = requests.get(
+	response = requests.get(
 		url,
 		headers=headers,
 		)
 	#show progress after request
-	print( '** INFO: GET Nodes: {0} \n'.format( request.status_code ) )
+	print( '** INFO: GET Nodes: {0} \n'.format( response.status_code ) )
 except (
 	requests.exceptions.ConnectionError ,\
 	socket_error,\
@@ -66,7 +66,7 @@ except (
 	print ('** ERROR: GET Nodes: {} \n'.format( error ) ) 
 
 #2xx HTTP status code is success
-if str(request.status_code)[0] == '2':
+if str(response.status_code)[0] == '2':
 
 	#parseable output
 	nodes_dict=response.json()
@@ -91,7 +91,7 @@ if str(request.status_code)[0] == '2':
 
 
 else:
-	print ('** ERROR: GET Node: {} \n'.format( request.text ) ) 	
+	print ('** ERROR: GET Node: {} \n'.format( response.text ) ) 	
 
 print( '\n** INFO: GET Node: 							Done. \n' )
 
