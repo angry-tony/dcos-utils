@@ -29,8 +29,8 @@ import json
 import argparse
 
 #Load configuration from environment variables
-DCOS_IP=os.environ('TEST_IP')
-NUM_MASTERS=os.environ('EXPECTED_NUMBER_OF_MASTERS')
+DCOS_IP=os.environ['TEST_IP']
+NUM_MASTERS=os.environ['EXPECTED_NUMBER_OF_MASTERS']
 TOKEN=os.environ['TOKEN']
 
 #CHECK #1
