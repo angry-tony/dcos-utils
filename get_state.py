@@ -30,9 +30,9 @@ import argparse
 
 #Load configuration from environment variables
 
-if 'DCOS_IP' in os.environ and 'EXPECTED_NUMBER_OF_MASTERS' in os.environ and ['DCOS_TOKEN'] in os.environ:
+if 'DCOS_IP' in os.environ and 'NUM_MASTERS' in os.environ and ['DCOS_TOKEN'] in os.environ:
 	DCOS_IP=os.environ['DCOS_IP']
-	NUM_MASTERS=os.environ['EXPECTED_NUMBER_OF_MASTERS']
+	NUM_MASTERS=os.environ['NUM_MASTERS']
 	DCOS_TOKEN=os.environ['DCOS_TOKEN']
 else:
 	print('** ERROR: required variables DCOS_IP, NUM_MASTERS, \
