@@ -43,7 +43,6 @@ def login_to_cluster ( DCOS_IP, username, password ):
 			headers=headers
 			)
 		request.raise_for_status()
-		print('**INFO: Login to cluster {0} as {1} OK: {2}'.format( DCOS_IP, username, request.status_code ) )
 	except ( requests.exceptions.HTTPError, requests.exceptions.ConnectionError ) as error:
 		print('**ERROR: Login to cluster {0} as {1} ERROR: {2}'.format( DCOS_IP, username, request.text) )
 		return False
@@ -67,5 +66,5 @@ if __name__ == "__main__":
 		args['password']
 		)
 	os.environ['DCOS_IP']=token
-	print('**INFO: DC/OS token obtained from {0}: \n{1}'.format( args['server'], token ) )
+	print('{1}'.format( token ) )
 	sys.exit(0)
