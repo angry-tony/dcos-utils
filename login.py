@@ -8,11 +8,11 @@
 #http://mesos.apache.org/documentation/latest/endpoints/master/slaves/
 
 #prereqs on redhat7
-# rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-# yum install -y epel-release
-# yum install -y git python-pip python34 jq nginx
-# curl https://bootstrap.pypa.io/get-pip.py | python3.4
-# pip3 install --upgrade pip jsonschema requests
+rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+yum install -y epel-release
+yum install -y git python-pip python34 jq nginx
+curl https://bootstrap.pypa.io/get-pip.py | python3.4
+pip3 install --upgrade pip jsonschema requests argparse
 
 #
 import os
@@ -69,5 +69,5 @@ if __name__ == "__main__":
 		args['password']
 		)
 	os.environ['DCOS_IP']=token
-	print('**INFO: DC/OS token obtained from {0}: \n{1}'.format( DCOS_IP, token ) )
+	print('**INFO: DC/OS token obtained from {0}: \n{1}'.format( args['server'] token ) )
 	sys.exit(0)
