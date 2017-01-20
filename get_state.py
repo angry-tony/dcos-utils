@@ -105,10 +105,10 @@ if str(response.status_code)[0] == '2':	#2xx HTTP status code is success
 
 	#TODO: print relevant metrics and make sure that registrar/log/recovered is there and =1
 	if 'registrar/log/recovered' in data:
-		if data['registrar/log/recovered'] == '1':
+		if data['registrar/log/recovered'] == '1.0':
 			print('**INFO: Log Recovered check OK')
 		else:
-			print('**ERROR: Log NOT recovered: {0}'.format( data['registrar/log/recovered'] ) )
+			print('**ERROR: Log NOT recovered. Value is {0}'.format( data['registrar/log/recovered'] ) )
 	else:
 		print('**ERROR: Registrar Log not found in response' )
 else:
@@ -121,7 +121,7 @@ api_endpoint = '/system/health/v1/report'
 url = 'http://'+DCOS_IP+api_endpoint
 headers = {
 	'Content-type': 'application/json',
-	'Authorization': 'token='+TOKEN,
+	'Authorization': 'token='+DCOS_TOKEN,
 }
 try:
 	response = requests.get(
