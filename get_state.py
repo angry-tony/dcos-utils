@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 #
-# get_NUM_MASTERS.py: retrieve and save the master state from a DC/OS cluster
+# get_state.py: retrieve and save the master state from a DC/OS cluster
 #
 # Author: Fernando Sanchez [ fernando at mesosphere.com ]
 #
-# Get the NUM_MASTERS state from a DC/OS cluster. Provide a list of
+# Get the masters state from a DC/OS cluster. Provide a list of
 # the Total, Active and Inactive agents.
 
 # This uses three arguments passed as environment variables :
-# TEST_IP: server to check -one of the DC/OS NUM_MASTERS in a cluster-
+# TEST_IP: server to check -one of the DC/OS masters in a cluster-
 # TOKEN: authentication token to be used against the cluster
-# EXPECTED_NUMBER_OF_NUM_MASTERS: expected number of NUM_MASTERS
+# EXPECTED_NUMBER_OF_NUM_MASTERS: expected number of masters
 
 #reference:
 #http://mesos.apache.org/documentation/latest/endpoints/master/slaves/
@@ -33,6 +33,10 @@ DCOS_IP=os.environ['TEST_IP']
 NUM_MASTERS=os.environ['EXPECTED_NUMBER_OF_MASTERS']
 TOKEN=os.environ['TOKEN']
 
+if DCOS_IP='' or NUM_MASTERS=='' or TOKEN='':
+	print('** ERROR: required variables DCOS_IP: {0}, NUM_MASTERS: {1}, \
+		TOKEN: {2} not set appropriately. Please set and re-run'.format(DCOS_IP,NUM_MASTERS,TOKEN))
+
 #CHECK #1
 #check from zookeeper the number of servers and leaders matches what is expected.
 EXHIBITOR_STATUS_URL = 'http://'+DCOS_IP+':8181/exhibitor/v1/cluster/status'
@@ -48,7 +52,7 @@ if str(response.status_code)[0] != '2':
 	sys.exit(1)
 data = response.json()
 #parseable output
-print("\n\n**OUTPUT:{'exhibitor_status':{}}".format(data))
+print("\n\n**OUTPUT:{'exhibitor_status':{}}".format(json.dump(data))
 #count the number of serving nodes and leaders
 serving = 0
 leaders = 0
@@ -94,7 +98,6 @@ print('**DEBUG: Metrics is'.format(request.text))
 #CHECK #3
 #Get health report of the system and make sure EVERYTHING is Healthy. 
 #Display where it's Unhealthy otherwise.
-
 api_endpoint = '/system/health/v1/report'
 url = 'http://'+DCOS_IP+api_endpoint
 headers = {

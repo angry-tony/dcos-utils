@@ -55,7 +55,7 @@ except requests.exceptions.HTTPError as error:
 if str(request.status_code)[0] == '2':
 
 	#parseable output
-	print("\n\n**OUTPUT:{'nodes_list':{}}".format(request.text))
+	print("\n\n**OUTPUT:{'nodes':{}}".format(request.text))
 	#Create a list of nodes
 	nodes_dict = json.loads( request.text )
 	nodes_list = nodes_dict['nodes']
