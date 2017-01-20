@@ -26,7 +26,7 @@ def login_to_cluster ( DCOS_IP, username, password ):
 	Return the token obtained or False if error.
 	"""
 	api_endpoint = '/acs/api/v1/auth/login'
-	url = 'http://'+config['DCOS_IP']+api_endpoint
+	url = 'http://'+DCOS_IP+api_endpoint
 	headers = {
 		'Content-type': 'application/json'
 	}
