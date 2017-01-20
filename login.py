@@ -19,6 +19,7 @@ import os
 import requests
 import json
 import argparse
+import sys
 
 def login_to_cluster ( DCOS_IP, username, password ):
 	"""
