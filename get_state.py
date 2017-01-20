@@ -59,8 +59,8 @@ if str(response.status_code)[0] != '2':
 	sys.exit(1)
 data = response.json()
 #parseable output
-output={'exhibitor_status': data }
-print("\n\n**OUTPUT:\n {0}".format( json.dumps(output) ))
+exhibitor_status={'exhibitor_status': data }
+print("\n\n**OUTPUT:\n {0}".format( json.dumps(exhibitor_status) ))
 #count the number of serving nodes and leaders
 serving = 0
 leaders = 0
@@ -88,20 +88,25 @@ headers = {
 	'Authorization': 'token='+DCOS_TOKEN,
 }
 try:
-	request = requests.get(
+	response = requests.get(
 		url,
 		headers=headers,
 		)
 	#show progress after request
-	print( '**INFO: GET Metrics: {0} \n'.format( request.status_code ) )
+	print( '**INFO: GET Metrics: {0} \n'.format( response.status_code ) )
 except requests.exceptions.HTTPError as error:
-	print ('**ERROR: GET Metrics: {} \n'.format( requests.text ) )
+	print ('**ERROR: GET Metrics: {} \n'.format( response.text ) )
 
-#parseable output
-print("\n\n**OUTPUT:{'metrics':{}}".format(request.text))
-#TODO: print relevant metrics and make sure that /registrar/log
-print('**DEBUG: Metrics is'.format(request.text))
+if str(response.status_code)[0] == '2':	#2xx HTTP status code is success
+	#parseable output
+	data=response.json()
+	metrics={'metrics': data }
+	print("\n\n**OUTPUT:\n {0}".format(json.dumps(metrics)))
 
+	#TODO: print relevant metrics and make sure that /registrar/log
+	print('**DEBUG: Metrics is'.format(request.text))
+else:
+	print ('**ERROR: GET Health: {} \n'.format( response.text ) ) 	
 
 #CHECK #3
 #Get health report of the system and make sure EVERYTHING is Healthy. 
@@ -123,21 +128,20 @@ except requests.exceptions.HTTPError as error:
 	print ('**ERROR: GET Health Report: {} \n'.format( response.text ) ) 
 
 if str(response.status_code)[0] == '2':	#2xx HTTP status code is success
-
 	#parseable output
-	print("\n\n**OUTPUT:{'health_report':{}}".format(request.text))	
-	response_dict=response.json()
+	data=response.json()
+	health_report={'health_report': data}
+	print("\n\n**OUTPUT:{'health_report':{}}".format( json.dumps( health_report ) ) )	
 	#print relevant parameters from health
-	for unit in response_dict['Units']:
+	for unit in data['Units']:
 		print('Name: {0:48}			State: {1}'.format( \
-			response_dict['Units'][unit]['UnitName'], response_dict['Units'][unit]['Health'] ) )
-		if response_dict['Units'][unit]['Health']: #not 0 means unhealthy, print all children
+			data['Units'][unit]['UnitName'], data['Units'][unit]['Health'] ) )
+		if data['Units'][unit]['Health']: #not 0 means unhealthy, print all children
 			for node in unit['Nodes']:
 				print('Name: {0:48}			IP: {1}		State: {2}'.format( \
-					response_dict['Units:'][unit]['UnitName'], response_dict['Units'][unit][node]['IP'], \
-					response_dict['Units'][unit][node]['Health'] ) )
+					data['Units:'][unit]['UnitName'], response_dict['Units'][unit][node]['IP'], \
+					data['Units'][unit][node]['Health'] ) )
 else:
-
 	print ('**ERROR: GET Health: {} \n'.format( response.text ) ) 	
 
 print( '\n** INFO: GET System Health: 							Done. \n' )
