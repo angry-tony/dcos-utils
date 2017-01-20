@@ -20,6 +20,7 @@ import requests
 import json
 import argparse
 import sys
+from socket import error as socket_error
 
 def login_to_cluster ( DCOS_IP, username, password ):
 	"""
@@ -45,9 +46,10 @@ def login_to_cluster ( DCOS_IP, username, password ):
 		request.raise_for_status()
 	except ( 
 		requests.exceptions.ConnectionError ,\
-		socket.error,\
+		socket_error,\
 		requests.packages.urllib3.exceptions.NewConnectionError ,\
-		requests.packages.urllib3.exceptions.MaxRetryErrorrequests.exceptions.HTTPError
+		requests.packages.urllib3.exceptions.MaxRetryErrorrequests.exceptions.HTTPError,\
+		ConnectionRefusedError
 		) as error:
 		print('**ERROR: Login to cluster {0} as {1} ERROR: {2}'.format( DCOS_IP, username, request.text) )
 		return False
