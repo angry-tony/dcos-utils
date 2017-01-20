@@ -103,8 +103,14 @@ if str(response.status_code)[0] == '2':	#2xx HTTP status code is success
 	metrics={'metrics': data }
 	print("\n\n**OUTPUT:\n {0}".format(json.dumps(metrics)))
 
-	#TODO: print relevant metrics and make sure that /registrar/log
-	print('**DEBUG: Metrics is'.format(request.text))
+	#TODO: print relevant metrics and make sure that registrar/log/recovered is there and =1
+	if 'registrar/log/recovered' in data:
+		if data['registrar/log/recovered'] == '1':
+			print('**INFO: Log Recovered check OK')
+		else:
+			print('**ERROR: Log NOT recovered: {0}'.format( data['registrar/log/recovered'] ) )
+	else:
+		print('**ERROR: Registrar Log not found in response' )
 else:
 	print ('**ERROR: GET Health: {} \n'.format( response.text ) ) 	
 
