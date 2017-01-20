@@ -59,7 +59,7 @@ if str(response.status_code)[0] != '2':
 	sys.exit(1)
 data = response.json()
 #parseable output
-print("\n\n**OUTPUT:{'exhibitor_status':{}}".format(json.dump(data))
+print("\n\n**OUTPUT:{'exhibitor_status':{}}".format(json.dump(data)))
 #count the number of serving nodes and leaders
 serving = 0
 leaders = 0
