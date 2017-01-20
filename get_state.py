@@ -29,13 +29,12 @@ import json
 import argparse
 
 #Load configuration from environment variables
-DCOS_IP=os.environ['TEST_IP']
-NUM_MASTERS=os.environ['EXPECTED_NUMBER_OF_MASTERS']
-DCOS_TOKEN=os.environ['DCOS_TOKEN']
 
-print('**DEBUG: DCOS_IP: {}'.format(DCOS_IP))
-print('**DEBUG: DCOS_TOKEN: {}'.format(DCOS_TOKEN))
-if DCOS_IP=='' or NUM_MASTERS=='' or DCOS_TOKEN=='':
+if os.environ['DCOS_IP'] and os.environ['EXPECTED_NUMBER_OF_MASTERS'] and os.environ['DCOS_TOKEN']
+	DCOS_IP=os.environ['DCOS_IP']
+	NUM_MASTERS=os.environ['EXPECTED_NUMBER_OF_MASTERS']
+	DCOS_TOKEN=os.environ['DCOS_TOKEN']
+else:
 	print('** ERROR: required variables DCOS_IP: {0}, NUM_MASTERS: {1}, \
 		DCOS_TOKEN: {2} not set appropriately. Please set and re-run'.format(DCOS_IP,NUM_MASTERS,DCOS_TOKEN))
 
