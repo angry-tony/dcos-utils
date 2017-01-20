@@ -47,7 +47,7 @@ api_endpoint = '/system/health/v1/nodes'
 url = 'http://'+DCOS_IP+api_endpoint
 headers = {
 	'Content-type': 'application/json',
-	'Authorization': 'DCOS_TOKEN='+DCOS_TOKEN,
+	'Authorization': 'token='+DCOS_TOKEN,
 }
 try:
 	request = requests.get(

@@ -31,11 +31,11 @@ import argparse
 #Load configuration from environment variables
 DCOS_IP=os.environ['TEST_IP']
 NUM_MASTERS=os.environ['EXPECTED_NUMBER_OF_MASTERS']
-TOKEN=os.environ['TOKEN']
+DCOS_TOKEN=os.environ['DCOS_TOKEN']
 
-if DCOS_IP='' or NUM_MASTERS=='' or TOKEN='':
+if DCOS_IP=='' or NUM_MASTERS=='' or DCOS_TOKEN='':
 	print('** ERROR: required variables DCOS_IP: {0}, NUM_MASTERS: {1}, \
-		TOKEN: {2} not set appropriately. Please set and re-run'.format(DCOS_IP,NUM_MASTERS,TOKEN))
+		DCOS_TOKEN: {2} not set appropriately. Please set and re-run'.format(DCOS_IP,NUM_MASTERS,DCOS_TOKEN))
 
 #CHECK #1
 #check from zookeeper the number of servers and leaders matches what is expected.
@@ -82,7 +82,7 @@ api_endpoint=':5050/metrics/snapshot'
 url = 'http://'+DCOS_IP+api_endpoint
 headers = {
 	'Content-type': 'application/json',
-	'Authorization': 'token='+TOKEN,
+	'Authorization': 'token='+DCOS_TOKEN,
 }
 try:
 	request = requests.get(
