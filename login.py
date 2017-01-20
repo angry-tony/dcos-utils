@@ -66,5 +66,5 @@ if __name__ == "__main__":
 		args['password']
 		)
 	os.environ['DCOS_IP']=token
-	print('{1}'.format( token ) )
+	print('{0}'.format( token ) )
 	sys.exit(0)
