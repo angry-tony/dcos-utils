@@ -38,9 +38,6 @@ else:
 	print('**ERROR: required variables DCOS_IP, DCOS_TOKEN not set appropriately. Please set and re-run.')
 	sys.exit(1)
 
-print('**DEBUG: DCOS_IP: {}'.format(DCOS_IP))
-print('**DEBUG: DCOS_TOKEN: {}'.format(DCOS_TOKEN))
-
 #Get list of nodes with their state from DC/OS. 
 #This will be later used as index to get all user-to-group memberships
 api_endpoint = '/system/health/v1/nodes'
@@ -65,9 +62,7 @@ except (
 	) as error:
 	print ('** ERROR: GET Nodes: {} \n'.format( error ) ) 
 
-#2xx HTTP status code is success
-if str(response.status_code)[0] == '2':
-
+if str(response.status_code)[0] == '2': #2xx HTTP status code is success
 	#parseable output
 	nodes_dict=response.json()
 	nodes={'nodes': nodes_dict }
@@ -88,8 +83,6 @@ if str(response.status_code)[0] == '2':
 	print(SEPARATOR)
 	for index, node in ( enumerate( unhealthy_nodes ) ):
 		print ( "Node #{0}: {1:24} - {2}".format( index, node['host_ip'], node['role']) )
-
-
 else:
 	print ('** ERROR: GET Node: {} \n'.format( response.text ) ) 	
 

@@ -29,7 +29,6 @@ import json
 from socket import error as socket_error
 
 #Load configuration from environment variables
-
 if ('DCOS_IP' in os.environ) and ('NUM_MASTERS' in os.environ) and ('DCOS_TOKEN' in os.environ):
 	DCOS_IP=os.environ['DCOS_IP']
 	NUM_MASTERS=os.environ['NUM_MASTERS']
@@ -77,7 +76,6 @@ if serving != NUM_MASTERS or leaders != 1:
 		sys.exit(1)
 else:
 		print('**INFO: server/leader check OK: {0} servers and {1} leader.'.format( serving, leaders ) )
-
 
 #CHECK #2
 #https://docs.mesosphere.com/1.8/administration/installing/cloud/aws/upgrading/
