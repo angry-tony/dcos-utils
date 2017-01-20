@@ -60,7 +60,7 @@ if str(response.status_code)[0] != '2':
 data = response.json()
 #parseable output
 exhibitor_status={'exhibitor_status': data }
-print("\n\n**OUTPUT:\n {0}".format( json.dumps(exhibitor_status) ))
+print("\n\n**OUTPUT:\n{0}".format( json.dumps(exhibitor_status) ))
 #count the number of serving nodes and leaders
 serving = 0
 leaders = 0
@@ -101,7 +101,7 @@ if str(response.status_code)[0] == '2':	#2xx HTTP status code is success
 	#parseable output
 	data=response.json()
 	metrics={'metrics': data }
-	print("\n\n**OUTPUT:\n {0}".format(json.dumps(metrics)))
+	print("\n\n**OUTPUT:\n{0}".format(json.dumps(metrics)))
 
 	#TODO: print relevant metrics and make sure that registrar/log/recovered is there and =1
 	if 'registrar/log/recovered' in data:
@@ -137,7 +137,7 @@ if str(response.status_code)[0] == '2':	#2xx HTTP status code is success
 	#parseable output
 	data=response.json()
 	health_report={'health_report': data}
-	print("\n\n**OUTPUT:{'health_report':{}}".format( json.dumps( health_report ) ) )	
+	print("\n\n**OUTPUT:\n{0}}".format( json.dumps( health_report ) ) )	
 	#print relevant parameters from health
 	for unit in data['Units']:
 		print('Name: {0:48}			State: {1}'.format( \
