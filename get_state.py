@@ -38,7 +38,7 @@ else:
 	print('** ERROR: required variables DCOS_IP, NUM_MASTERS, \
 	DCOS_TOKEN not set appropriately. Please set and re-run')
 	sys.exit(1)
-
+NUM_MASTERS=int(NUM_MASTERS)
 #CHECK #1
 #check from zookeeper the number of servers and leaders matches what is expected.
 EXHIBITOR_STATUS_URL = 'http://'+DCOS_IP+':8181/exhibitor/v1/cluster/status'
