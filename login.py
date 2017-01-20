@@ -69,5 +69,5 @@ if __name__ == "__main__":
 		args['password']
 		)
 	os.environ['DCOS_IP']=token
-	print('**INFO: DC/OS token obtained from {0}: \n{1}'.format( args['server'] token ) )
+	print('**INFO: DC/OS token obtained from {0}: \n{1}'.format( args['server'], token ) )
 	sys.exit(0)
