@@ -39,7 +39,7 @@ print('**DEBUG: DCOS_IP: {}'.format(DCOS_IP))
 print('**DEBUG: DCOS_TOKEN: {}'.format(DCOS_TOKEN))
 if DCOS_IP=='' or TOKEN=='':
 	print('** ERROR: required variables DCOS_IP: {0}, TOKEN: {1}, \
-		not set appropriately. Please set and re-run'.format(DCOS_IP,TOKEN))
+		not set appropriately. Please set and re-run'.format(DCOS_IP,DCOS_TOKEN))
 
 #Get list of nodeS with their state from DC/OS. 
 #This will be later used as index to get all user-to-group memberships
