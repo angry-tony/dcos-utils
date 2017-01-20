@@ -137,7 +137,7 @@ if str(response.status_code)[0] == '2':	#2xx HTTP status code is success
 	#parseable output
 	data=response.json()
 	health_report={'health_report': data}
-	print("\n\n**OUTPUT:\n{0}}".format( json.dumps( health_report ) ) )	
+	print("\n\n**OUTPUT:\n{0}".format( json.dumps( health_report ) ) )	
 	#print relevant parameters from health
 	for unit in data['Units']:
 		print('Name: {0:48}			State: {1}'.format( \
