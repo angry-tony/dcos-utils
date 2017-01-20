@@ -135,7 +135,7 @@ if str(response.status_code)[0] == '2':	#2xx HTTP status code is success
 					response_dict['Units'][unit][node]['Health'] ) )
 else:
 
-	print ('**ERROR: GET Health: {} \n'.format( error ) ) 	
+	print ('**ERROR: GET Health: {} \n'.format( response.text ) ) 	
 
 print( '\n** INFO: GET System Health: 							Done. \n' )
 

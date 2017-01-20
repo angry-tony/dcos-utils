@@ -82,7 +82,7 @@ if str(request.status_code)[0] == '2':
 
 
 else:
-	print ('** ERROR: GET Node: {} \n'.format( error ) ) 	
+	print ('** ERROR: GET Node: {} \n'.format( request.text ) ) 	
 
 print( '\n** INFO: GET Node: 							Done. \n' )
 
