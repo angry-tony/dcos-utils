@@ -26,6 +26,7 @@ import sys
 import os
 import requests
 import json
+from socket import error as socket_error
 
 SEPARATOR="="*42
 
@@ -50,9 +51,10 @@ try:
 	print( '** INFO: GET Nodes: {0} \n'.format( request.status_code ) )
 except (
 	requests.exceptions.ConnectionError ,\
-	socket.error,\
+	socket_error,\
 	requests.packages.urllib3.exceptions.NewConnectionError ,\
-	requests.packages.urllib3.exceptions.MaxRetryErrorrequests.exceptions.HTTPError
+	requests.packages.urllib3.exceptions.MaxRetryErrorrequests.exceptions.HTTPError,\
+	ConnectionRefusedError
 	) as error:
 	print ('** ERROR: GET Nodes: {} \n'.format( error ) ) 
 
