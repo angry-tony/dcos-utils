@@ -78,7 +78,7 @@ else:
 
 #CHECK #2
 #https://docs.mesosphere.com/1.8/administration/installing/cloud/aws/upgrading/
-#METRICS: "registrar" has the metric/registrar/log recovered with a value of 1
+#METRICS: "registrar" has the metric/registrar/log recovered with a value of 1.0
 #http://<dcos_master_private_ip>:5050/metrics/snapshot
 #api_endpoint=':5050/metrics/snapshot'
 api_endpoint='/mesos/metrics/snapshot'
@@ -104,7 +104,7 @@ if str(response.status_code)[0] == '2':	#2xx HTTP status code is success
 	print("\n\n**OUTPUT:\n{0}".format(json.dumps(metrics)))
 	# #2 - EXAMPLE PARSING
 	if 'registrar/log/recovered' in data:
-		if data['registrar/log/recovered'] == '1.0':
+		if data['registrar/log/recovered'] == 1.0:
 			print('**INFO: Log Recovered check OK')
 		else:
 			print('**ERROR: Log NOT recovered. Value is {0}'.format( data['registrar/log/recovered'] ) )
