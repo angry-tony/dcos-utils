@@ -26,7 +26,6 @@ import sys
 import os
 import requests
 import json
-from socket import error as socket_error
 
 SEPARATOR="="*42
 
@@ -55,12 +54,13 @@ try:
 	print( '** INFO: GET Nodes: {0} \n'.format( response.status_code ) )
 except (
 	requests.exceptions.ConnectionError ,\
-	socket_error,\
-	requests.packages.urllib3.exceptions.NewConnectionError ,\
-	requests.packages.urllib3.exceptions.MaxRetryErrorrequests.exceptions.HTTPError,\
+	requests.exceptions.Timeout ,\
+	requests.exceptions.TooManyRedirects ,\
+	requests.exceptions.RequestException ,\
 	ConnectionRefusedError
 	) as error:
-	print ('** ERROR: GET Nodes: {} \n'.format( error ) ) 
+	print ('** ERROR: GET Nodes: {} \n'.format( error ) )
+	sys.exit(1)
 
 if str(response.status_code)[0] == '2': #2xx HTTP status code is success
 	#parseable output

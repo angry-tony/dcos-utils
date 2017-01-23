@@ -26,7 +26,6 @@ import sys
 import os
 import requests
 import json
-from socket import error as socket_error
 
 #Load configuration from environment variables
 if ('DCOS_IP' in os.environ) and ('NUM_MASTERS' in os.environ) and ('DCOS_TOKEN' in os.environ):
@@ -42,25 +41,25 @@ NUM_MASTERS=int(NUM_MASTERS)
 #CHECK #1
 #check from zookeeper the number of servers and leaders matches what is expected.
 EXHIBITOR_STATUS_URL = 'http://'+DCOS_IP+':8181/exhibitor/v1/cluster/status'
-print('**INFO: Expected cluster size: {}'.format( NUM_MASTERS ))
 #get the actual cluster size from zookeeper
 try:
 	response = requests.get(EXHIBITOR_STATUS_URL)
 except (
 	requests.exceptions.ConnectionError ,\
-	socket_error,\
-	requests.packages.urllib3.exceptions.NewConnectionError ,\
-	requests.packages.urllib3.exceptions.MaxRetryErrorrequests.exceptions.HTTPError,\
+	requests.exceptions.Timeout ,\
+	requests.exceptions.TooManyRedirects ,\
+	requests.exceptions.RequestException ,\
 	ConnectionRefusedError
-	) as ex:
-	print('**ERROR: Could not connect to exhibitor: {}'.format(ex))
+	) as error:
+	print('**ERROR: Could not connect to exhibitor: {}'.format(error))
 	sys.exit(1)
 if str(response.status_code)[0] != '2':
 	print('**ERROR: Could not get exhibitor status: {}, Status code: {}'.format( EXHIBITOR_STATUS_URL, response.status_code ) )
 	sys.exit(1)
 data = response.json()
-#parseable output
+# #1 - parseable output
 exhibitor_status={'exhibitor_status': data }
+# #1 - EXAMPLE PARSING
 print("\n\n**OUTPUT:\n{0}".format( json.dumps(exhibitor_status) ))
 #count the number of serving nodes and leaders
 serving = 0
@@ -81,7 +80,8 @@ else:
 #https://docs.mesosphere.com/1.8/administration/installing/cloud/aws/upgrading/
 #METRICS: "registrar" has the metric/registrar/log recovered with a value of 1
 #http://<dcos_master_private_ip>:5050/metrics/snapshot
-api_endpoint=':5050/metrics/snapshot'
+#api_endpoint=':5050/metrics/snapshot'
+api_endpoint='/mesos/metrics/snapshot'
 url = 'http://'+DCOS_IP+api_endpoint
 headers = {
 	'Content-type': 'application/json',
@@ -98,12 +98,11 @@ except requests.exceptions.HTTPError as error:
 	print ('**ERROR: GET Metrics: {} \n'.format( response.text ) )
 
 if str(response.status_code)[0] == '2':	#2xx HTTP status code is success
-	#parseable output
+	# #2 - parseable output
 	data=response.json()
 	metrics={'metrics': data }
 	print("\n\n**OUTPUT:\n{0}".format(json.dumps(metrics)))
-
-	#TODO: print relevant metrics and make sure that registrar/log/recovered is there and =1
+	# #2 - EXAMPLE PARSING
 	if 'registrar/log/recovered' in data:
 		if data['registrar/log/recovered'] == '1.0':
 			print('**INFO: Log Recovered check OK')
@@ -134,11 +133,11 @@ except requests.exceptions.HTTPError as error:
 	print ('**ERROR: GET Health Report: {} \n'.format( response.text ) ) 
 
 if str(response.status_code)[0] == '2':	#2xx HTTP status code is success
-	#parseable output
+	# #3 - parseable output
 	data=response.json()
 	health_report={'health_report': data}
 	print("\n\n**OUTPUT:\n{0}".format( json.dumps( health_report ) ) )	
-	#print relevant parameters from health
+	# #3 - EXAMPLE PARSING
 	for unit in data['Units']:
 		print('Name: {0:48}			State: {1}'.format( \
 			data['Units'][unit]['UnitName'], data['Units'][unit]['Health'] ) )
