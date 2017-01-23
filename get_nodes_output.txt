@@ -1,0 +1,20 @@
+** INFO: GET Nodes: 200 
+
+
+
+**OUTPUT:
+{"nodes": {"nodes": [{"role": "agent_public", "host_ip": "10.0.6.105", "health": 0}, {"role": "agent", "host_ip": "10.0.3.141", "health": 0}, {"role": "master", "host_ip": "10.0.6.76", "health": 0}, {"role": "agent", "host_ip": "10.0.3.79", "health": 0}]}}
+TOTAL nodes: 				4
+==========================================
+HEALTHY nodes: 			4
+==========================================
+Node #0: 10.0.6.105               - agent_public
+Node #1: 10.0.3.141               - agent
+Node #2: 10.0.6.76                - master
+Node #3: 10.0.3.79                - agent
+==========================================
+UNHEALTHY nodes: 			0
+==========================================
+
+** INFO: GET Node: 							Done. 
+
