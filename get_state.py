@@ -104,7 +104,7 @@ if str(response.status_code)[0] == '2':	#2xx HTTP status code is success
 	print("\n\n**OUTPUT:\n{0}".format(json.dumps(metrics)))
 	# #2 - EXAMPLE PARSING
 	if 'registrar/log/recovered' in data:
-		if data['registrar/log/recovered'] == 1.0:
+		if data['registrar/log/recovered'] == int(1.0):
 			print('**INFO: Log Recovered check OK')
 		else:
 			print('**ERROR: Log NOT recovered. Value is {0}'.format( data['registrar/log/recovered'] ) )
@@ -142,10 +142,13 @@ if str(response.status_code)[0] == '2':	#2xx HTTP status code is success
 		print('Name: {0:48}			State: {1}'.format( \
 			data['Units'][unit]['UnitName'], data['Units'][unit]['Health'] ) )
 		if data['Units'][unit]['Health']: #not 0 means unhealthy, print all children
-			for node in unit['Nodes']:
-				print('Name: {0:48}			IP: {1}		State: {2}'.format( \
-					data['Units:'][unit]['UnitName'], response_dict['Units'][unit][node]['IP'], \
-					data['Units'][unit][node]['Health'] ) )
+#D			for node in unit['Nodes']:
+#D				print('Name: {0:48}			IP: {1}		State: {2}'.format( \
+#D					data['Units:'][unit]['UnitName'], response_dict['Units'][unit][node]['IP'], \
+#D					data['Units'][unit][node]['Health'] ) )
+			for node in data['Units'][unit]['Nodes']:
+				print( ' Name: {0:48}		IP: {1}		State: {2}'.format( \
+					data['Units'][unit]['UnitName'], node['IP'], node['Health'] ) )
 else:
 	print ('**ERROR: GET Health: {} \n'.format( response.text ) ) 	
 
