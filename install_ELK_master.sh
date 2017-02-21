@@ -1,3 +1,5 @@
+#!/bin/bash
+
 ELK_HOSTNAME=10.120.1.213
 ELK_PORT=9200
 FILEBEAT_JOURNALCTL_CONFIG="/etc/filebeat/filebeat_journald.yml"
