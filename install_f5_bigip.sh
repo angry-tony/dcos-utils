@@ -100,9 +100,6 @@ dcos security secrets get /$F5_BIGIP_SECRET_NAME --json | jq -r .value | jq
 
 sleep 3
 
-#create credentials using the escaped private key
-export DCOS_AUTH_CREDENTIALS="{ \"scheme\": \"RS256\", \"uid\": \"${F5_BIGIP_SVC_ACT_NAME}\", \"login_endpoint\": \"https://leader.mesos/acs/api/v1/auth/login\", \"private_key\": \"${F5_BIGIP_PRV_KEY_ESCAPED}\" }"
-
 # Launch Marathon-LB using the secret and the cert created above
 cat > $F5_BIGIP_JSON_FILE << EOF
 {
