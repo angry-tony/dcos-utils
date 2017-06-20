@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # install_f5_bigip.sh: Install F5's BigIP LoadBalancer on a running Enterprise DC/OS cluster
-# requires previously creating a service account and credentials.
+# automates creating a service account and credentials.
 
 #Parameters
 export F5_BIGIP_SVC_ACT_NAME=dcos_f5_bigip
