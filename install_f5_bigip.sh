@@ -18,7 +18,7 @@ export ESCAPE_KEY="./escape_key.py"
 export AUTH_ENDPOINT="/acs/api/v1/auth/login"
 
 #test if python is present
-command -v python >/dev/null 2>&1 || { echo "This script requires Python but it's not installed. Please install Python and re-run. Aborting." >&2; exit 1; }
+command -v python2 >/dev/null 2>&1 || { echo "This script requires Python2 but it's not installed or I can't find 'python2' in the path. Please install Python and re-run. Aborting." >&2; exit 1; }
 
 #get DC/OS cluster address
 read -p "Enter DC/OS cluster address: " DCOS_IP
