@@ -100,6 +100,9 @@ dcos security secrets get /$F5_BIGIP_SECRET_NAME --json | jq -r .value | jq
 
 sleep 3
 
+#get the address of the F5 BIGIP LTM appliance to connect to
+read -p "Enter the address of your F5 LTM appliance: " BIGIP_HOSTNAME
+
 # Launch Marathon-LB using the secret and the cert created above
 cat > $F5_BIGIP_JSON_FILE << EOF
 {
@@ -117,7 +120,7 @@ cat > $F5_BIGIP_JSON_FILE << EOF
   "env": {
     "MARATHON_URL": "http://marathon.mesos:8080",
     "F5_CC_PARTITIONS": "mesos",
-    "F5_CC_BIGIP_HOSTNAME": "10.190.25.80",
+    "F5_CC_BIGIP_HOSTNAME": "${BIGIP_HOSTNAME}",
     "F5_CC_BIGIP_USERNAME": "admin",
     "F5_CC_BIGIP_PASSWORD": "admin",
     "F5_CC_DCOS_AUTH_CREDENTIALS": "{ \"scheme\": \"RS256\", \"uid\": \"${F5_BIGIP_SVC_ACT_NAME}\", \"login_endpoint\": \"https://leader.mesos/acs/api/v1/auth/login\", \"private_key\": \"${F5_BIGIP_PRV_KEY_ESCAPED}\" }",
