@@ -48,7 +48,7 @@ echo "** INFO: Refreshing temp directory..."
 rm -rf ${TMP_DIR}
 mkdir -p ${TMP_DIR}
 
-#export token to DC/OS configuration
+#export DC/OS configuration
 echo "** INFO: Logging into DC/OS..."
 dcos config set core.dcos_url $DCOS_URL
 #login to dcos
