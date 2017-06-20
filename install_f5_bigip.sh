@@ -92,11 +92,11 @@ curl -skSL -X PUT -H "Authorization: token=$(dcos config show core.dcos_acs_toke
 sleep 3
 
 #Create secret for service account
-echo "** INFO: Creating secret for F5 on DC/OS..."
-dcos security secrets create-sa-secret $F5_BIGIP_PRV_KEY $F5_BIGIP_SVC_ACT_NAME $F5_BIGIP_SECRET_NAME
-dcos security secrets list /
-echo "** INFO: Created secret for F5 on DC/OS:"
-dcos security secrets get /$F5_BIGIP_SECRET_NAME --json | jq -r .value | jq
+#echo "** INFO: Creating secret for F5 on DC/OS..."
+#dcos security secrets create-sa-secret $F5_BIGIP_PRV_KEY $F5_BIGIP_SVC_ACT_NAME $F5_BIGIP_SECRET_NAME
+#dcos security secrets list /
+#echo "** INFO: Created secret for F5 on DC/OS:"
+#dcos security secrets get /$F5_BIGIP_SECRET_NAME --json | jq -r .value | jq
 
 sleep 3
 
